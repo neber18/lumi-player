@@ -1,0 +1,18 @@
+{
+  "name": "lumi-player",
+  "version": "1.0.0",
+  "description": "Reproductor de música web en TypeScript basado en una lista doblemente enlazada",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "esbuild tests/list.test.ts --bundle --platform=node --outfile=tests/.list.cjs --log-level=error && node tests/.list.cjs && esbuild tests/youtube.test.ts --bundle --platform=node --outfile=tests/.yt.cjs --log-level=error && node tests/.yt.cjs",
+    "build": "tsc --noEmit && esbuild src/main.ts --bundle --outfile=dist/app.js --target=es2020 --minify",
+    "dev": "esbuild src/main.ts --bundle --outfile=dist/app.js --target=es2020 --sourcemap --watch",
+    "serve": "npm run build:site && npx --yes serve site",
+    "build:site": "npm run build && node scripts/make-site.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.6.0"
+  }
+}

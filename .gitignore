@@ -1,0 +1,4 @@
+node_modules/
+site/
+tests/.*.cjs
+.DS_Store
