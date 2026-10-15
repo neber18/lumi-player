@@ -58,4 +58,34 @@ check("lista de un elemento queda vacía y consistente", one.isEmpty && one.head
 l.clear();
 check("clear", l.size === 0 && l.head === null && l.tail === null);
 
+/* ---------- reverse / contains ---------- */
+
+const r = new DoublyLinkedList<number>();
+[1, 2, 3, 4].forEach((n) => r.addLast(n));
+const firstNode = r.head!;
+r.reverse();
+check("reverse -> 4,3,2,1", r.toArray().join() === "4,3,2,1" && consistent(r));
+check("reverse conserva la identidad de los nodos", r.tail === firstNode);
+check("contains encuentra y descarta", r.contains((n) => n === 3) && !r.contains((n) => n === 9));
+
+const empty = new DoublyLinkedList<number>();
+empty.reverse();
+check("reverse en lista vacía no rompe", empty.isEmpty && empty.head === null && consistent(empty));
+
+/* ---------- casos borde ---------- */
+
+check("removeAt fuera de rango devuelve undefined", empty.removeAt(0) === undefined && r.removeAt(99) === undefined && r.removeAt(-1) === undefined);
+check("nodeAt de lista vacía es null", empty.nodeAt(0) === null);
+check("indexOf de nodo ajeno es -1", r.indexOf(new DoublyLinkedList<number>().addFirst(1)) === -1);
+check("move con índice inválido devuelve false", r.move(-1, 0) === false && r.move(99, 0) === false && r.move(1, 1) === false);
+
+const mid = new DoublyLinkedList<string>();
+["a", "b", "c"].forEach((x) => mid.addLast(x));
+mid.removeNode(mid.nodeAt(1)!);
+check("removeNode del medio -> a,c", mid.toArray().join() === "a,c" && consistent(mid));
+
+const iter = new DoublyLinkedList<number>();
+[10, 20, 30].forEach((n) => iter.addLast(n));
+check("es iterable con spread", [...iter].join() === "10,20,30");
+
 finish("Todas las pruebas pasaron");
