@@ -62,14 +62,29 @@ Límites propios de YouTube:
 
 | Archivo | Contenido |
 | --- | --- |
-| `src/DoublyLinkedList.ts` | Lista doble genérica: `addFirst`, `addLast`, `insertAt`, `removeNode`, `removeAt`, `move`, `moveAfter`, `reorder`, `shuffle`, `nodeAt` (recorre desde el extremo más cercano) |
+| `src/DoublyLinkedList.ts` | Lista doble genérica: `addFirst`, `addLast`, `insertAt`, `removeNode`, `removeAt`, `move`, `moveAfter`, `reorder`, `reverse`, `shuffle`, `contains`, `nodeAt` (recorre desde el extremo más cercano) |
 | `src/Player.ts` | Motor: puntero al nodo actual (`next`/`prev`), dos motores (`<audio>` y YouTube) |
 | `src/youtube.ts` | IFrame Player API, búsqueda Data API v3, lectura de enlaces |
-| `src/storage.ts` | Persistencia (IndexedDB + localStorage) |
+| `src/storage.ts` | Persistencia (IndexedDB + localStorage) y validación del estado guardado |
 | `src/models.ts` | `Track`, `Playlist` |
 | `src/main.ts` | Interfaz y eventos |
-| `tests/` | Pruebas de la lista y de YouTube (`npm test`) |
+| `tests/` | Pruebas de la lista, de YouTube y del almacenamiento (`npm test`), con utilidades en `tests/helpers.ts` |
 | `scripts/make-site.mjs` | Genera `site/` con lo necesario para publicar |
+
+## Desarrollo
+
+Requiere Node 20 o superior (hay un `.nvmrc`).
+
+| Comando | Qué hace |
+| --- | --- |
+| `npm run dev` | Recompila `dist/app.js` al guardar |
+| `npm run typecheck` | Revisa los tipos con TypeScript |
+| `npm test` | Ejecuta las pruebas de lista, YouTube y almacenamiento |
+| `npm run build` | Typecheck + bundle minificado en `dist/app.js` |
+| `npm run build:site` | Genera `site/` listo para publicar |
+
+El workflow `ci.yml` corre typecheck, pruebas y build en cada pull request y en las ramas distintas de `main`;
+`deploy.yml` publica en GitHub Pages al subir a `main`.
 
 ## Funciones
 
