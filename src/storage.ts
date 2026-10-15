@@ -86,10 +86,37 @@ export function saveState(state: SavedState): void {
   }
 }
 
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null;
+
+function isSavedTrack(v: unknown): v is SavedTrack {
+  return (
+    isRecord(v) &&
+    typeof v.id === "string" &&
+    typeof v.title === "string" &&
+    typeof v.artist === "string" &&
+    typeof v.duration === "number" &&
+    typeof v.fileName === "string"
+  );
+}
+
+/** Comprueba que lo leído de localStorage tiene la forma de un estado válido. */
+export function isSavedState(v: unknown): v is SavedState {
+  return (
+    isRecord(v) &&
+    typeof v.activeId === "string" &&
+    Array.isArray(v.playlists) &&
+    v.playlists.every(
+      (p) => isRecord(p) && typeof p.id === "string" && typeof p.name === "string" && Array.isArray(p.tracks) && p.tracks.every(isSavedTrack)
+    )
+  );
+}
+
 export function loadState(): SavedState | null {
   try {
     const raw = localStorage.getItem(META_KEY);
-    return raw ? (JSON.parse(raw) as SavedState) : null;
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    return isSavedState(parsed) ? parsed : null;
   } catch {
     return null;
   }
