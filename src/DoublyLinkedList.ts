@@ -115,6 +115,16 @@ export class DoublyLinkedList<T> implements Iterable<T> {
     this.relink(nodes);
   }
 
+  /** Invierte el orden de la lista conservando los nodos. O(n) */
+  reverse(): void {
+    this.relink(Array.from(this.nodes()).reverse());
+  }
+
+  /** Indica si algún elemento cumple el predicado. */
+  contains(predicate: (value: T) => boolean): boolean {
+    return this.find(predicate) !== null;
+  }
+
   shuffle(): void {
     const nodes = Array.from(this.nodes());
     for (let i = nodes.length - 1; i > 0; i--) {
