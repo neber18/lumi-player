@@ -1,10 +1,5 @@
 import { DoublyLinkedList } from "../src/DoublyLinkedList";
-
-let failed = 0;
-function check(name: string, cond: boolean): void {
-  if (!cond) failed++;
-  console.log(`${cond ? "OK  " : "FAIL"} ${name}`);
-}
+import { check, finish } from "./helpers";
 
 /** Verifica que prev/next, head/tail y size sean coherentes en ambos sentidos. */
 function consistent<T>(l: DoublyLinkedList<T>): boolean {
@@ -63,7 +58,4 @@ check("lista de un elemento queda vacía y consistente", one.isEmpty && one.head
 l.clear();
 check("clear", l.size === 0 && l.head === null && l.tail === null);
 
-if (failed) {
-  throw new Error(`${failed} prueba(s) fallaron`);
-}
-console.log("\nTodas las pruebas pasaron");
+finish("Todas las pruebas pasaron");

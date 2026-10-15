@@ -1,10 +1,5 @@
 import { parseIsoDuration, parseVideoId } from "../src/youtube";
-
-let failed = 0;
-function check(name: string, cond: boolean): void {
-  if (!cond) failed++;
-  console.log(`${cond ? "OK  " : "FAIL"} ${name}`);
-}
+import { check, finish } from "./helpers";
 
 const ID = "dQw4w9WgXcQ";
 check("id suelto", parseVideoId(ID) === ID);
@@ -24,5 +19,4 @@ check("duración PT1H2M3S", parseIsoDuration("PT1H2M3S") === 3723);
 check("duración PT45S", parseIsoDuration("PT45S") === 45);
 check("duración inválida", parseIsoDuration("P0D") === 0);
 
-if (failed) throw new Error(`${failed} prueba(s) fallaron`);
-console.log("\nTodas las pruebas de YouTube pasaron");
+finish("Todas las pruebas de YouTube pasaron");
